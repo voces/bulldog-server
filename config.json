@@ -1,0 +1,10 @@
+{
+    "wss": {
+        "keys": {
+            "key": "ssl/key.pem",
+            "cert": "ssl/cert.pem",
+            "ca": "ssl/ca.pem"
+        },
+        "port": 8088
+    }, "maxPartySize": 15
+}
