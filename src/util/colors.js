@@ -3,12 +3,11 @@ module.exports = {
     black:		'\x1b[30m',
     red: 		'\x1b[31m',
     green: 		'\x1b[32m',
-    yellow: 	'\x1b[33m',
+    yellow: 	'\x1b[33m',    //Channel
     blue: 		'\x1b[34m',
-    magenta: 	'\x1b[35m',
-    cyan: 		'\x1b[36m',
+    magenta: 	'\x1b[35m',   //Client
+    cyan: 		'\x1b[36m',     //Server
     white: 		'\x1b[37m',
-    black: 		'\x1b[30m',
     bred: 		'\x1b[1;31m',
     bgreen: 	'\x1b[1;32m',
     byellow: 	'\x1b[1;33m',

@@ -5,31 +5,13 @@ const https = require("https"),
     async = require("async"),
     dateformat = require("dateformat"),
 
-    colors = require("./colors"),
-    Client = require("./Client")
-    Party = require("./Party");
+    colors = require("./util/colors"),
+    Client = require("./Client");
 
 class Server {
 
     constructor() {
 
-        this.clients = [];
-        this.parties = [];
-
-        this.openManualParties = [];
-        this.openAutoParties = [];
-
-        this.history = [];
-
-        this.packetId = 0;
-
-    }
-
-    get openParties() {
-        return {
-            autoParties: this.openAutoParties,
-            manualParties: this.openManualParties
-        }
     }
 
     loadSSLKeys(keys, callback) {
@@ -76,7 +58,7 @@ class Server {
 
         }).listen(port, () => {
             this.wss = new ws.Server({server: this.https});
-            this.wss.on("connection", socket => this.onConnect(socket));
+            this.wss.on("connection", socket => new Client(socket));
 
             this.log("WSS listening on", port);
         });
@@ -112,64 +94,6 @@ class Server {
 
     }
 
-    createParty() {
-
-        let party = new Party();
-        this.parties.push(party);
-
-        party.on("open", () => {
-
-            if (party.auto) this.openAutoParties.push(party);
-            else this.openManualParties.push(party);
-
-        });
-
-        party.on("kill", () => {
-
-            if (party.open) {
-
-                if (party.auto)
-                    this.openAutoParties.splice(this.openAutoParties.indexOf(party), 1);
-                else this.openManualParties.splice(this.openManualParties.indexOf(party, 1));
-
-            }
-
-            this.parties.splice(this.parties.indexOf(party), 1);
-
-        });
-
-        return party;
-
-    }
-
-    getOpenParty() {
-
-        if (this.openAutoParties.length === 0)
-            return this.createParty();
-
-        return this.openAutoParties[0];
-
-    }
-
-    onDisconnect(client) {
-
-        client.disconnect();
-
-        if (client.party) client.party.remove(client);
-        this.clients.splice(this.clients.indexOf(client), 1)
-
-    }
-
-    onConnect(socket) {
-        let client = new Client(socket);
-
-        this.clients.push(client);
-
-        this.getOpenParty().add(client);
-
-        client.on("close", () => this.onDisconnect(client));
-    }
-
     log(...args) {
         args.unshift(dateformat(new Date(), "hh:MM:sst") + colors.bcyan);
         args.push(colors.default);
@@ -184,4 +108,4 @@ class Server {
 
 }
 
-module.exports = new Server
+module.exports = new Server()

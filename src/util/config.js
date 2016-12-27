@@ -6,7 +6,7 @@ class Config extends EventEmitter {
     constructor() {
         super();
 
-        fs.readFile(__dirname + "/../config.json", (err, file) => this.processFile(err, file));
+        fs.readFile(__dirname + "/../../config.json", (err, file) => this.processFile(err, file));
 
     }
 
@@ -22,7 +22,7 @@ class Config extends EventEmitter {
             for (let prop in file)
                 this[prop] = file[prop];
 
-            this.emit("ready", file);
+            setImmediate(() => this.emit("ready", file));
 
         } catch (err) {
             console.error("Unable to parse config.json");

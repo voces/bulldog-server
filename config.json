@@ -6,5 +6,9 @@
             "ca": "ssl/ca.pem"
         },
         "port": 8088
-    }, "maxPartySize": 15
+    },
+    "database": {
+        "url": "mongodb://localhost:27017/bulldog"
+    },
+    "maxPartySize": 15
 }
