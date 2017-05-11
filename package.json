@@ -10,7 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.0.1",
+    "dateformat": "^2.0.0",
     "mongodb": "^2.2.16",
     "ws": "^1.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-mdcs": "^4.2.2"
   }
 }
